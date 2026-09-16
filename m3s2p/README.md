@@ -33,27 +33,6 @@ mpirun -np 4 ./hello_mpi_comm                  # no arguments
 `size` must divide evenly by the process count.
 `MPI_Scatter` requires equal chunks, so rank 0 prints an error and exits 1 rather than silently dropping the remainder.
 
-## How the work splits
-
-`VectorAddMPI.cpp` uses collectives only.
-There is no `MPI_Send` or `MPI_Recv` in it.
-
-| Call | Role |
-|---|---|
-| `MPI_Scatter` x2 | distribute `v1` and `v2` in equal contiguous chunks |
-| `MPI_Gather` | collect the local results back onto rank 0 |
-| `MPI_Reduce` | fold each rank's partial sum with `MPI_SUM` |
-| `MPI_Barrier` x4 | fence the phases so rank 0's `MPI_Wtime` stamps bracket real work |
-
-Only rank 0 allocates the full vectors and generates the data.
-Every rank allocates three local buffers of `size / numtasks`.
-Rank 0 then re-adds the whole array sequentially, compares element by element and checks the `MPI_Reduce` total against its own sum, so both the data path and the reduction get verified.
-
-Output is a per-rank line, a phase breakdown in microseconds, and a machine-readable line whose columns are processes, size, generate, scatter, add, gather, reduce, then total.
-
-```
-CSV,4,100000000,2299396,234625,39074,115294,18011,2688391
-```
 
 ## Benchmark
 
@@ -69,8 +48,3 @@ Cluster runs need a `hostfile` in this directory and the binary at the same path
 There is no hostfile here, so the script stops after the local runs and prints `no hostfile, skipping cluster runs`.
 With one present it also sweeps a hard-coded 2, 4 and 8 processes and tags those rows `mpi-cluster`.
 
-## A note on vm_results
-
-`vm_results/out_omp.txt` and `out_omp_full.txt` did not come from anything in this folder.
-There is no OpenMP source here.
-They are `m2t1p/VectorAddOMP.cpp` rebuilt and run on the same VM so the OpenMP and MPI numbers share a machine.
