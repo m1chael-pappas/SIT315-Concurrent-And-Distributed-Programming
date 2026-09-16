@@ -60,12 +60,4 @@ Builds both programs, then sweeps 100000, 1000000, 10000000 and 50000000 element
 `THREADS` defaults to `nproc` and `RUNS` to 7, and the median of each run set goes into a markdown table on stdout.
 Nothing is written to disk beyond the two binaries.
 
-## Two things to know about the kernels
-
-`square_magnitude` takes a `size` argument but never uses it, so it has no bounds guard and relies on the host launching exactly as many work-items as there are elements.
-`vector_add` does guard with `if (i < size)`.
-
-Both enqueue with a `NULL` local work size, so the runtime picks the work-group size.
-Neither uses local memory or vector types.
-
 Data is generated with `rand() % 100` and there is no `srand()` call, so every run produces the same vectors.
