@@ -70,23 +70,6 @@ The generator defaults to seed 42, so datasets are reproducible.
 `par` reports records produced and consumed, blocks pushed and popped, how many times producers waited on a full queue, how many times consumers waited on an empty one, and peak queue depth against capacity.
 Those wait counts are the diagnostic when a configuration underperforms.
 
-## The bounded buffer
-
-A fixed-capacity `std::queue<Block>` behind one `std::mutex` and two condition variables, `notFull_` and `notEmpty_`.
-Both waits sit in `while` loops so a spurious wakeup re-checks the predicate.
-
-Shutdown works by having main join the producers, then call `close()`, which sets a flag and wakes every blocked consumer.
-A consumer that finds the queue empty while closed returns false and exits.
-`stop()` is the separate abort path for a parse failure.
-
-## Three accumulation strategies
-
-Totals live in a dense array indexed `hour * lights + light`, so there is no hashing or allocation on the hot path.
-`--summary` picks how consumers write into it, and all three are kept so the report can measure the difference.
-
-`local` gives each consumer a private array, merged after the joins across disjoint cell ranges with no locking.
-`atomic` shares one array of `std::atomic<uint64_t>` with relaxed `fetch_add`.
-`shared` puts one plain array behind a single mutex and locks once per record.
 
 ## Benchmark
 
@@ -100,28 +83,4 @@ Workloads are `small` (500 lights, 336 hours), `medium` (1000 lights, 1680 hours
 Missing datasets are generated on first run.
 Each workload gets a discarded warm-up pass first, otherwise the first timed run pays for the cold read off disk and the comparison measures storage rather than threading.
 
-## Regenerating the datasets
 
-`data/` is gitignored, 5.1 GB across four files.
-Running `./run_benchmarks.sh` regenerates the three it needs.
-Manually:
-
-```
-./traffic_sim gen --out data/traffic_small.csv  --lights 500  --hours 336
-./traffic_sim gen --out data/traffic_medium.csv --lights 1000 --hours 1680
-./traffic_sim gen --out data/traffic_large.csv  --lights 1500 --hours 3360
-./traffic_sim gen --out data/traffic_xlarge.csv --lights 2000 --hours 5040
-```
-
-`traffic_xlarge.csv` at 3.0 GB is a manual stress test.
-It has no entry in `run_benchmarks.sh`, so passing `xlarge` to the script fails on the array lookup.
-
-`sample_input.csv` comes from `--lights 20 --hours 24`.
-
-`seq.out` and `par.out` are not produced by any script:
-
-```
-./traffic_sim seq --in data/traffic_small.csv --top 5 --print-hours 0 --out-summary seq.out
-./traffic_sim par --in data/traffic_small.csv --producers 8 --consumers 8 --top 5 --print-hours 0 --out-summary par.out
-diff seq.out par.out
-```
