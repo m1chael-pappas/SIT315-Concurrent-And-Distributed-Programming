@@ -1,0 +1,9 @@
+impl,elements,threads,pivot,median_ms
+seq,50000000,1,median3,2819.114
+omp,50000000,16,median3,489.411
+seq,50000000,1,middle,2802.995
+omp,50000000,16,middle,526.371
+seq,50000000,1,last,2827.261
+omp,50000000,16,last,471.081
+seq,50000000,1,first,2805.908
+omp,50000000,16,first,462.536

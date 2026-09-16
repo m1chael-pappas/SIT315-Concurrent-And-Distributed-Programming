@@ -1,0 +1,84 @@
+=== threads=1 run=1 ===
+Time taken by function: 2235704 microseconds
+Addition loop only (1 threads): 45946 microseconds
+atomic:    341266 microseconds, total = 9899939511
+reduction: 27539 microseconds, total = 9899939511
+critical:  27695 microseconds, total = 9899939511
+totals match: yes
+=== threads=1 run=2 ===
+Time taken by function: 2197599 microseconds
+Addition loop only (1 threads): 47517 microseconds
+atomic:    344528 microseconds, total = 9899701966
+reduction: 27472 microseconds, total = 9899701966
+critical:  27638 microseconds, total = 9899701966
+totals match: yes
+=== threads=1 run=3 ===
+Time taken by function: 2185776 microseconds
+Addition loop only (1 threads): 45806 microseconds
+atomic:    335342 microseconds, total = 9900395461
+reduction: 26481 microseconds, total = 9900395461
+critical:  27301 microseconds, total = 9900395461
+totals match: yes
+=== threads=2 run=1 ===
+Time taken by function: 2211936 microseconds
+Addition loop only (2 threads): 31982 microseconds
+atomic:    669962 microseconds, total = 9899896330
+reduction: 15285 microseconds, total = 9899896330
+critical:  16024 microseconds, total = 9899896330
+totals match: yes
+=== threads=2 run=2 ===
+Time taken by function: 2228736 microseconds
+Addition loop only (2 threads): 31773 microseconds
+atomic:    1082404 microseconds, total = 9900662449
+reduction: 15164 microseconds, total = 9900662449
+critical:  16102 microseconds, total = 9900662449
+totals match: yes
+=== threads=2 run=3 ===
+Time taken by function: 2275843 microseconds
+Addition loop only (2 threads): 34556 microseconds
+atomic:    1127603 microseconds, total = 9900648100
+reduction: 14847 microseconds, total = 9900648100
+critical:  14498 microseconds, total = 9900648100
+totals match: yes
+=== threads=4 run=1 ===
+Time taken by function: 2781608 microseconds
+Addition loop only (4 threads): 24093 microseconds
+atomic:    928800 microseconds, total = 9900729621
+reduction: 10068 microseconds, total = 9900729621
+critical:  10085 microseconds, total = 9900729621
+totals match: yes
+=== threads=4 run=2 ===
+Time taken by function: 2342744 microseconds
+Addition loop only (4 threads): 28054 microseconds
+atomic:    847982 microseconds, total = 9900280294
+reduction: 11849 microseconds, total = 9900280294
+critical:  15492 microseconds, total = 9900280294
+totals match: yes
+=== threads=4 run=3 ===
+Time taken by function: 2434999 microseconds
+Addition loop only (4 threads): 30238 microseconds
+atomic:    888740 microseconds, total = 9900327669
+reduction: 11742 microseconds, total = 9900327669
+critical:  10966 microseconds, total = 9900327669
+totals match: yes
+=== threads=8 run=1 ===
+Time taken by function: 2234495 microseconds
+Addition loop only (8 threads): 23194 microseconds
+atomic:    872210 microseconds, total = 9900644980
+reduction: 5814 microseconds, total = 9900644980
+critical:  8117 microseconds, total = 9900644980
+totals match: yes
+=== threads=8 run=2 ===
+Time taken by function: 2270812 microseconds
+Addition loop only (8 threads): 22174 microseconds
+atomic:    1354602 microseconds, total = 9900018253
+reduction: 10637 microseconds, total = 9900018253
+critical:  8602 microseconds, total = 9900018253
+totals match: yes
+=== threads=8 run=3 ===
+Time taken by function: 2223083 microseconds
+Addition loop only (8 threads): 20140 microseconds
+atomic:    1451939 microseconds, total = 9900394088
+reduction: 7450 microseconds, total = 9900394088
+critical:  8465 microseconds, total = 9900394088
+totals match: yes

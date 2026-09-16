@@ -1,0 +1,14 @@
+rank 3 on master added 25000000 elements, local sum 2474969456
+rank 0 on master added 25000000 elements, local sum 2474990460
+rank 1 on master added 25000000 elements, local sum 2474980528
+rank 2 on master added 25000000 elements, local sum 2475227524
+processes: 4, size: 100000000
+v3 correct: yes
+MPI_Reduce total: 9900167968, sequential check: 9900167968 (match)
+generate:  2299396 us
+scatter:   234625 us
+add:       39074 us
+gather:    115294 us
+reduce:    18011 us
+total (generate+scatter+add+gather): 2688391 us
+CSV,4,100000000,2299396,234625,39074,115294,18011,2688391

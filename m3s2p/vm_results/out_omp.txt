@@ -1,0 +1,36 @@
+=== threads=1 run=1 ===
+Time taken by function: 2235704 microseconds
+Addition loop only (1 threads): 45946 microseconds
+=== threads=1 run=2 ===
+Time taken by function: 2197599 microseconds
+Addition loop only (1 threads): 47517 microseconds
+=== threads=1 run=3 ===
+Time taken by function: 2185776 microseconds
+Addition loop only (1 threads): 45806 microseconds
+=== threads=2 run=1 ===
+Time taken by function: 2211936 microseconds
+Addition loop only (2 threads): 31982 microseconds
+=== threads=2 run=2 ===
+Time taken by function: 2228736 microseconds
+Addition loop only (2 threads): 31773 microseconds
+=== threads=2 run=3 ===
+Time taken by function: 2275843 microseconds
+Addition loop only (2 threads): 34556 microseconds
+=== threads=4 run=1 ===
+Time taken by function: 2781608 microseconds
+Addition loop only (4 threads): 24093 microseconds
+=== threads=4 run=2 ===
+Time taken by function: 2342744 microseconds
+Addition loop only (4 threads): 28054 microseconds
+=== threads=4 run=3 ===
+Time taken by function: 2434999 microseconds
+Addition loop only (4 threads): 30238 microseconds
+=== threads=8 run=1 ===
+Time taken by function: 2234495 microseconds
+Addition loop only (8 threads): 23194 microseconds
+=== threads=8 run=2 ===
+Time taken by function: 2270812 microseconds
+Addition loop only (8 threads): 22174 microseconds
+=== threads=8 run=3 ===
+Time taken by function: 2223083 microseconds
+Addition loop only (8 threads): 20140 microseconds

@@ -1,0 +1,10 @@
+nproc: 8
+
+free -h:
+               total        used        free      shared  buff/cache   available
+Mem:           3.8Gi       1.3Gi       2.3Gi        23Mi       526Mi       2.6Gi
+Swap:          3.8Gi        16Mi       3.8Gi
+
+Description:	Ubuntu 24.04.2 LTS
+g++: g++ (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
+mpirun: mpirun (Open MPI) 4.1.6

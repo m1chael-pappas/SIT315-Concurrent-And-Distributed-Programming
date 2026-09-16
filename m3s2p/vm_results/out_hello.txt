@@ -1,0 +1,10 @@
+[Send/Recv] master (rank 0, master) sent to rank 1
+[Send/Recv] master (rank 0, master) sent to rank 2
+[Send/Recv] master (rank 0, master) sent to rank 3
+[Send/Recv] worker (rank 1 of 4, master) received: Hello World!
+[Send/Recv] worker (rank 2 of 4, master) received: Hello World!
+[Bcast] worker (rank 2 of 4, master) received: Hello World!
+[Send/Recv] worker (rank 3 of 4, master) received: Hello World!
+[Bcast] master (rank 0, master) broadcast: Hello World!
+[Bcast] worker (rank 1 of 4, master) received: Hello World!
+[Bcast] worker (rank 3 of 4, master) received: Hello World!
