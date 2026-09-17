@@ -14,6 +14,13 @@ m2t3d/traffic_sim
 m3s2p/hello_mpi_comm
 m3s2p/VectorAdd
 m3s2p/VectorAddMPI
+m3s3p/vector_ops
+m3s3p/vector_add_threads
+m3t1p/matrix_mpi
+m3t1p/matrix_mpi_omp
+m3t1p/matrix_mpi_ocl
+m3t1p/matrix_seq
+m3t1p/matrix_omp
 
 # Generated datasets
 m2t2c/data_200M.bin
@@ -23,6 +30,8 @@ m2t3d/data/
 m2t1p/output_omp.txt
 m2t1p/output_pthread.txt
 m2t1p/output_seq.txt
+m3t1p/output_omp.txt
+m3t1p/output_seq.txt
 
 # Local MPI configuration
 hostfile
