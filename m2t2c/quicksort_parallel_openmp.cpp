@@ -9,7 +9,7 @@
 // Build:  g++ -O2 -std=c++17 -Wall -Wextra -fopenmp quicksort_parallel_openmp.cpp -o quicksort_parallel_openmp
 // Run:    ./quicksort_parallel_openmp --n 100000000 --threads 16 --pivot median3 --runs 5
 //
-// Michael Pappas, 225071597
+// Michael Pappas
 // ============================================================================
 
 

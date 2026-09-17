@@ -1,0 +1,226 @@
+impl,elements,procs,threads,median_ms,scatter_ms,localsort_ms,pivots_ms,exchange_ms,merge_ms,gather_ms,checksum,device,local_ws,run,command
+seq,1000000,1,1,42.290,,,,,,,2146409207669040,cpu native,,1,./quicksort_sequential --n 1000000 --runs 1
+seq,1000000,1,1,41.826,,,,,,,2146409207669040,cpu native,,2,./quicksort_sequential --n 1000000 --runs 1
+seq,1000000,1,1,43.164,,,,,,,2146409207669040,cpu native,,3,./quicksort_sequential --n 1000000 --runs 1
+omp,1000000,1,8,11.890,,,,,,,2146409207669040,cpu native,,1,./quicksort_parallel_openmp  --n 1000000 --threads 8 --runs 1
+threads,1000000,1,8,23.225,,,,,,,2146409207669040,cpu native,,1,./quicksort_parallel_threads --n 1000000 --threads 8 --runs 1
+omp,1000000,1,8,12.290,,,,,,,2146409207669040,cpu native,,2,./quicksort_parallel_openmp  --n 1000000 --threads 8 --runs 1
+threads,1000000,1,8,23.261,,,,,,,2146409207669040,cpu native,,2,./quicksort_parallel_threads --n 1000000 --threads 8 --runs 1
+omp,1000000,1,8,12.310,,,,,,,2146409207669040,cpu native,,3,./quicksort_parallel_openmp  --n 1000000 --threads 8 --runs 1
+threads,1000000,1,8,23.368,,,,,,,2146409207669040,cpu native,,3,./quicksort_parallel_threads --n 1000000 --threads 8 --runs 1
+omp,1000000,1,16,13.442,,,,,,,2146409207669040,cpu native,,1,./quicksort_parallel_openmp  --n 1000000 --threads 16 --runs 1
+threads,1000000,1,16,18.563,,,,,,,2146409207669040,cpu native,,1,./quicksort_parallel_threads --n 1000000 --threads 16 --runs 1
+omp,1000000,1,16,10.604,,,,,,,2146409207669040,cpu native,,2,./quicksort_parallel_openmp  --n 1000000 --threads 16 --runs 1
+threads,1000000,1,16,18.405,,,,,,,2146409207669040,cpu native,,2,./quicksort_parallel_threads --n 1000000 --threads 16 --runs 1
+omp,1000000,1,16,14.028,,,,,,,2146409207669040,cpu native,,3,./quicksort_parallel_openmp  --n 1000000 --threads 16 --runs 1
+threads,1000000,1,16,18.422,,,,,,,2146409207669040,cpu native,,3,./quicksort_parallel_threads --n 1000000 --threads 16 --runs 1
+omp,1000000,1,32,20.725,,,,,,,2146409207669040,cpu native,,1,./quicksort_parallel_openmp  --n 1000000 --threads 32 --runs 1
+threads,1000000,1,32,15.799,,,,,,,2146409207669040,cpu native,,1,./quicksort_parallel_threads --n 1000000 --threads 32 --runs 1
+omp,1000000,1,32,11.791,,,,,,,2146409207669040,cpu native,,2,./quicksort_parallel_openmp  --n 1000000 --threads 32 --runs 1
+threads,1000000,1,32,16.015,,,,,,,2146409207669040,cpu native,,2,./quicksort_parallel_threads --n 1000000 --threads 32 --runs 1
+omp,1000000,1,32,11.548,,,,,,,2146409207669040,cpu native,,3,./quicksort_parallel_openmp  --n 1000000 --threads 32 --runs 1
+threads,1000000,1,32,15.849,,,,,,,2146409207669040,cpu native,,3,./quicksort_parallel_threads --n 1000000 --threads 32 --runs 1
+mpi,1000000,1,1,43.949,0.198,42.439,0.000,1.131,0.000,0.181,2146409207669040,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,1,1,44.424,0.264,42.854,0.001,1.108,0.000,0.197,2146409207669040,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,1,1,44.671,0.199,43.122,0.000,1.142,0.000,0.207,2146409207669040,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,2,1,24.000,0.466,20.816,0.012,0.932,1.567,0.207,2146409207669040,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,2,1,23.928,0.454,20.764,0.013,0.922,1.574,0.202,2146409207669040,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,2,1,23.900,0.444,20.767,0.012,0.887,1.592,0.197,2146409207669040,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,4,1,12.911,0.497,10.167,0.013,0.699,1.253,0.283,2146409207669040,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,4,1,13.098,0.578,9.816,0.063,0.791,1.504,0.346,2146409207669040,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,4,1,12.992,0.521,10.143,0.012,0.678,1.355,0.284,2146409207669040,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,8,1,9.621,0.937,5.936,0.029,1.243,1.069,0.407,2146409207669040,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,8,1,10.713,0.885,6.526,0.104,1.732,1.105,0.361,2146409207669040,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,8,1,9.236,0.914,5.219,0.042,1.773,0.960,0.328,2146409207669040,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,16,1,7.455,1.023,3.078,0.113,1.738,0.654,0.850,2146409207669040,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,16,1,8.160,1.789,2.998,0.283,1.674,0.679,0.737,2146409207669040,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 1000000 --runs 1
+mpi,1000000,16,1,9.026,1.002,3.188,0.217,2.884,0.694,1.041,2146409207669040,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 1000000 --runs 1
+mpi+ocl,1000000,1,1,75.650,0.219,73.417,0.000,1.798,0.000,0.215,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,1,1,78.974,0.201,77.470,0.000,1.092,0.000,0.212,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,1,1,83.116,0.210,81.610,0.000,1.088,0.000,0.207,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,2,1,71.510,0.713,68.676,0.017,0.447,1.361,0.295,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,2,1,68.367,0.571,65.717,0.016,0.408,1.455,0.200,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,2,1,68.448,0.808,65.489,0.015,0.381,1.521,0.234,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,4,1,52.334,0.670,49.071,0.035,0.801,1.473,0.284,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,4,1,51.896,0.570,49.303,0.018,0.506,1.133,0.366,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,4,1,52.111,0.638,49.374,0.016,0.623,1.169,0.291,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,8,1,43.824,0.673,40.379,0.074,1.405,0.944,0.349,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,8,1,43.453,0.653,39.752,0.151,1.545,0.990,0.362,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,8,1,44.901,0.690,41.346,0.036,1.359,1.096,0.373,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,16,1,170.827,1.606,165.016,0.307,2.235,0.652,1.012,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,16,1,37.509,1.879,31.512,0.213,2.551,0.652,0.703,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 1000000 --runs 1
+mpi+ocl,1000000,16,1,40.951,1.576,34.968,0.330,2.354,0.667,1.056,2146409207669040,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 1000000 --runs 1
+seq,4000000,1,1,194.329,,,,,,,8587847744702102,cpu native,,1,./quicksort_sequential --n 4000000 --runs 1
+seq,4000000,1,1,194.324,,,,,,,8587847744702102,cpu native,,2,./quicksort_sequential --n 4000000 --runs 1
+seq,4000000,1,1,189.243,,,,,,,8587847744702102,cpu native,,3,./quicksort_sequential --n 4000000 --runs 1
+omp,4000000,1,8,52.085,,,,,,,8587847744702102,cpu native,,1,./quicksort_parallel_openmp  --n 4000000 --threads 8 --runs 1
+threads,4000000,1,8,86.268,,,,,,,8587847744702102,cpu native,,1,./quicksort_parallel_threads --n 4000000 --threads 8 --runs 1
+omp,4000000,1,8,51.531,,,,,,,8587847744702102,cpu native,,2,./quicksort_parallel_openmp  --n 4000000 --threads 8 --runs 1
+threads,4000000,1,8,85.042,,,,,,,8587847744702102,cpu native,,2,./quicksort_parallel_threads --n 4000000 --threads 8 --runs 1
+omp,4000000,1,8,52.301,,,,,,,8587847744702102,cpu native,,3,./quicksort_parallel_openmp  --n 4000000 --threads 8 --runs 1
+threads,4000000,1,8,89.056,,,,,,,8587847744702102,cpu native,,3,./quicksort_parallel_threads --n 4000000 --threads 8 --runs 1
+omp,4000000,1,16,38.001,,,,,,,8587847744702102,cpu native,,1,./quicksort_parallel_openmp  --n 4000000 --threads 16 --runs 1
+threads,4000000,1,16,68.972,,,,,,,8587847744702102,cpu native,,1,./quicksort_parallel_threads --n 4000000 --threads 16 --runs 1
+omp,4000000,1,16,39.449,,,,,,,8587847744702102,cpu native,,2,./quicksort_parallel_openmp  --n 4000000 --threads 16 --runs 1
+threads,4000000,1,16,71.232,,,,,,,8587847744702102,cpu native,,2,./quicksort_parallel_threads --n 4000000 --threads 16 --runs 1
+omp,4000000,1,16,39.104,,,,,,,8587847744702102,cpu native,,3,./quicksort_parallel_openmp  --n 4000000 --threads 16 --runs 1
+threads,4000000,1,16,73.977,,,,,,,8587847744702102,cpu native,,3,./quicksort_parallel_threads --n 4000000 --threads 16 --runs 1
+omp,4000000,1,32,39.164,,,,,,,8587847744702102,cpu native,,1,./quicksort_parallel_openmp  --n 4000000 --threads 32 --runs 1
+threads,4000000,1,32,60.864,,,,,,,8587847744702102,cpu native,,1,./quicksort_parallel_threads --n 4000000 --threads 32 --runs 1
+omp,4000000,1,32,47.511,,,,,,,8587847744702102,cpu native,,2,./quicksort_parallel_openmp  --n 4000000 --threads 32 --runs 1
+threads,4000000,1,32,59.396,,,,,,,8587847744702102,cpu native,,2,./quicksort_parallel_threads --n 4000000 --threads 32 --runs 1
+omp,4000000,1,32,48.949,,,,,,,8587847744702102,cpu native,,3,./quicksort_parallel_openmp  --n 4000000 --threads 32 --runs 1
+threads,4000000,1,32,61.763,,,,,,,8587847744702102,cpu native,,3,./quicksort_parallel_threads --n 4000000 --threads 32 --runs 1
+mpi,4000000,1,1,205.555,1.302,198.345,0.000,4.922,0.000,0.986,8587847744702102,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,1,1,204.867,1.268,197.865,0.000,4.799,0.000,0.934,8587847744702102,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,1,1,205.991,1.872,198.823,0.000,4.518,0.000,0.776,8587847744702102,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,2,1,111.512,1.312,98.790,0.021,3.735,6.596,1.059,8587847744702102,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,2,1,113.701,1.606,99.088,0.020,3.612,7.298,2.077,8587847744702102,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,2,1,108.872,1.460,92.384,0.013,5.411,8.344,1.260,8587847744702102,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,4,1,66.154,2.306,50.898,0.019,4.029,7.659,1.244,8587847744702102,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,4,1,59.623,1.755,46.872,0.015,2.821,6.241,1.919,8587847744702102,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,4,1,58.216,1.518,46.825,0.031,3.088,5.658,1.096,8587847744702102,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,8,1,33.838,2.416,24.063,0.044,2.553,3.515,1.246,8587847744702102,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,8,1,33.055,1.887,22.725,0.122,3.031,4.078,1.212,8587847744702102,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,8,1,34.992,1.885,23.812,0.102,3.358,4.497,1.339,8587847744702102,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,16,1,23.488,1.911,12.712,0.177,3.162,2.655,2.872,8587847744702102,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,16,1,23.145,2.600,12.673,0.239,3.295,2.603,1.736,8587847744702102,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 4000000 --runs 1
+mpi,4000000,16,1,24.249,3.526,12.969,0.243,3.478,2.654,1.379,8587847744702102,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 4000000 --runs 1
+mpi+ocl,4000000,1,1,163.422,0.749,157.474,0.000,4.381,0.000,0.818,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,1,1,177.696,0.847,171.666,0.000,4.352,0.000,0.829,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,1,1,166.874,0.876,160.812,0.000,4.373,0.000,0.812,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,2,1,160.543,1.975,147.302,0.021,3.399,6.660,1.186,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,2,1,155.001,1.229,141.738,0.021,4.246,6.749,1.018,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,2,1,141.542,1.553,129.585,0.016,3.174,6.232,0.982,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,4,1,109.006,1.466,97.623,0.018,2.494,6.345,1.060,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,4,1,108.181,1.552,98.203,0.019,2.183,5.207,1.016,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,4,1,106.784,1.381,97.664,0.016,2.016,4.709,0.997,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,8,1,95.132,1.758,85.480,0.085,2.029,4.239,1.543,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,8,1,94.665,1.518,85.969,0.071,1.994,3.851,1.261,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,8,1,99.696,1.665,90.451,0.087,2.408,3.782,1.303,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,16,1,101.093,2.483,87.892,0.340,3.715,2.664,3.999,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,16,1,87.449,2.192,78.343,0.299,2.596,2.555,1.464,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 4000000 --runs 1
+mpi+ocl,4000000,16,1,97.045,3.587,86.188,0.413,2.824,2.681,1.353,8587847744702102,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 4000000 --runs 1
+seq,16000000,1,1,825.121,,,,,,,34356021073035639,cpu native,,1,./quicksort_sequential --n 16000000 --runs 1
+seq,16000000,1,1,820.896,,,,,,,34356021073035639,cpu native,,2,./quicksort_sequential --n 16000000 --runs 1
+seq,16000000,1,1,822.885,,,,,,,34356021073035639,cpu native,,3,./quicksort_sequential --n 16000000 --runs 1
+omp,16000000,1,8,169.855,,,,,,,34356021073035639,cpu native,,1,./quicksort_parallel_openmp  --n 16000000 --threads 8 --runs 1
+threads,16000000,1,8,517.760,,,,,,,34356021073035639,cpu native,,1,./quicksort_parallel_threads --n 16000000 --threads 8 --runs 1
+omp,16000000,1,8,182.963,,,,,,,34356021073035639,cpu native,,2,./quicksort_parallel_openmp  --n 16000000 --threads 8 --runs 1
+threads,16000000,1,8,513.476,,,,,,,34356021073035639,cpu native,,2,./quicksort_parallel_threads --n 16000000 --threads 8 --runs 1
+omp,16000000,1,8,166.817,,,,,,,34356021073035639,cpu native,,3,./quicksort_parallel_openmp  --n 16000000 --threads 8 --runs 1
+threads,16000000,1,8,527.918,,,,,,,34356021073035639,cpu native,,3,./quicksort_parallel_threads --n 16000000 --threads 8 --runs 1
+omp,16000000,1,16,132.964,,,,,,,34356021073035639,cpu native,,1,./quicksort_parallel_openmp  --n 16000000 --threads 16 --runs 1
+threads,16000000,1,16,456.093,,,,,,,34356021073035639,cpu native,,1,./quicksort_parallel_threads --n 16000000 --threads 16 --runs 1
+omp,16000000,1,16,128.794,,,,,,,34356021073035639,cpu native,,2,./quicksort_parallel_openmp  --n 16000000 --threads 16 --runs 1
+threads,16000000,1,16,462.980,,,,,,,34356021073035639,cpu native,,2,./quicksort_parallel_threads --n 16000000 --threads 16 --runs 1
+omp,16000000,1,16,131.600,,,,,,,34356021073035639,cpu native,,3,./quicksort_parallel_openmp  --n 16000000 --threads 16 --runs 1
+threads,16000000,1,16,458.026,,,,,,,34356021073035639,cpu native,,3,./quicksort_parallel_threads --n 16000000 --threads 16 --runs 1
+omp,16000000,1,32,132.488,,,,,,,34356021073035639,cpu native,,1,./quicksort_parallel_openmp  --n 16000000 --threads 32 --runs 1
+threads,16000000,1,32,424.293,,,,,,,34356021073035639,cpu native,,1,./quicksort_parallel_threads --n 16000000 --threads 32 --runs 1
+omp,16000000,1,32,137.326,,,,,,,34356021073035639,cpu native,,2,./quicksort_parallel_openmp  --n 16000000 --threads 32 --runs 1
+threads,16000000,1,32,429.894,,,,,,,34356021073035639,cpu native,,2,./quicksort_parallel_threads --n 16000000 --threads 32 --runs 1
+omp,16000000,1,32,137.127,,,,,,,34356021073035639,cpu native,,3,./quicksort_parallel_openmp  --n 16000000 --threads 32 --runs 1
+threads,16000000,1,32,424.395,,,,,,,34356021073035639,cpu native,,3,./quicksort_parallel_threads --n 16000000 --threads 32 --runs 1
+mpi,16000000,1,1,858.607,2.742,826.549,0.001,26.667,0.000,2.649,34356021073035639,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,1,1,856.931,3.208,824.695,0.000,26.333,0.000,2.695,34356021073035639,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,1,1,848.895,3.151,823.705,0.000,19.075,0.000,2.963,34356021073035639,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,2,1,449.635,4.433,401.853,0.012,12.891,26.617,3.829,34356021073035639,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,2,1,446.253,4.589,399.508,0.011,12.211,26.321,3.613,34356021073035639,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,2,1,448.051,3.865,400.419,0.014,12.761,26.957,4.035,34356021073035639,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,4,1,231.924,5.806,191.655,0.017,7.764,22.314,4.368,34356021073035639,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,4,1,245.965,4.706,203.803,0.024,9.824,23.547,4.061,34356021073035639,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,4,1,245.807,7.163,199.861,0.023,9.597,24.923,4.240,34356021073035639,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,8,1,139.616,5.595,102.529,0.064,10.560,16.426,4.441,34356021073035639,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,8,1,130.022,5.501,97.604,0.213,7.043,15.238,4.423,34356021073035639,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,8,1,126.229,6.038,95.101,0.051,6.210,14.201,4.628,34356021073035639,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,16,1,86.256,6.369,55.585,0.281,6.708,11.153,6.160,34356021073035639,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,16,1,91.082,6.619,54.421,0.293,7.674,12.721,9.354,34356021073035639,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 16000000 --runs 1
+mpi,16000000,16,1,92.289,7.325,55.292,0.181,9.271,11.257,8.963,34356021073035639,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 16000000 --runs 1
+mpi+ocl,16000000,1,1,545.121,2.707,521.885,0.000,17.793,0.000,2.735,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,1,1,484.484,2.764,461.781,0.000,17.243,0.000,2.696,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,1,1,574.861,2.765,551.843,0.000,17.364,0.000,2.889,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,2,1,485.465,4.145,440.131,0.015,11.848,25.534,3.791,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,2,1,418.542,4.422,370.372,0.019,12.638,27.321,3.770,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,2,1,408.219,4.319,361.493,0.020,12.628,26.116,3.642,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,4,1,381.778,5.240,343.788,0.016,8.036,20.383,4.314,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,4,1,384.272,5.764,344.607,0.017,9.547,19.920,4.417,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,4,1,411.804,5.466,372.439,0.019,8.563,19.891,5.427,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,8,1,342.224,5.760,309.714,0.071,8.215,13.773,4.691,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,8,1,365.439,7.142,328.164,0.071,7.756,17.648,4.658,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,8,1,336.309,5.314,302.408,0.109,7.911,14.546,6.021,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,16,1,305.817,6.400,275.273,0.270,6.921,10.835,6.118,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,16,1,311.556,6.953,273.398,0.107,7.803,12.224,11.070,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 16000000 --runs 1
+mpi+ocl,16000000,16,1,338.045,7.591,304.618,0.269,7.488,11.885,6.195,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 16000000 --runs 1
+seq,64000000,1,1,3620.052,,,,,,,137437749187630446,cpu native,,1,./quicksort_sequential --n 64000000 --runs 1
+seq,64000000,1,1,3667.933,,,,,,,137437749187630446,cpu native,,2,./quicksort_sequential --n 64000000 --runs 1
+seq,64000000,1,1,3638.780,,,,,,,137437749187630446,cpu native,,3,./quicksort_sequential --n 64000000 --runs 1
+omp,64000000,1,8,883.058,,,,,,,137437749187630446,cpu native,,1,./quicksort_parallel_openmp  --n 64000000 --threads 8 --runs 1
+threads,64000000,1,8,1134.120,,,,,,,137437749187630446,cpu native,,1,./quicksort_parallel_threads --n 64000000 --threads 8 --runs 1
+omp,64000000,1,8,880.783,,,,,,,137437749187630446,cpu native,,2,./quicksort_parallel_openmp  --n 64000000 --threads 8 --runs 1
+threads,64000000,1,8,1126.349,,,,,,,137437749187630446,cpu native,,2,./quicksort_parallel_threads --n 64000000 --threads 8 --runs 1
+omp,64000000,1,8,883.360,,,,,,,137437749187630446,cpu native,,3,./quicksort_parallel_openmp  --n 64000000 --threads 8 --runs 1
+threads,64000000,1,8,1149.329,,,,,,,137437749187630446,cpu native,,3,./quicksort_parallel_threads --n 64000000 --threads 8 --runs 1
+omp,64000000,1,16,658.728,,,,,,,137437749187630446,cpu native,,1,./quicksort_parallel_openmp  --n 64000000 --threads 16 --runs 1
+threads,64000000,1,16,1087.102,,,,,,,137437749187630446,cpu native,,1,./quicksort_parallel_threads --n 64000000 --threads 16 --runs 1
+omp,64000000,1,16,644.906,,,,,,,137437749187630446,cpu native,,2,./quicksort_parallel_openmp  --n 64000000 --threads 16 --runs 1
+threads,64000000,1,16,1082.639,,,,,,,137437749187630446,cpu native,,2,./quicksort_parallel_threads --n 64000000 --threads 16 --runs 1
+omp,64000000,1,16,634.008,,,,,,,137437749187630446,cpu native,,3,./quicksort_parallel_openmp  --n 64000000 --threads 16 --runs 1
+threads,64000000,1,16,1098.652,,,,,,,137437749187630446,cpu native,,3,./quicksort_parallel_threads --n 64000000 --threads 16 --runs 1
+omp,64000000,1,32,501.718,,,,,,,137437749187630446,cpu native,,1,./quicksort_parallel_openmp  --n 64000000 --threads 32 --runs 1
+threads,64000000,1,32,1050.432,,,,,,,137437749187630446,cpu native,,1,./quicksort_parallel_threads --n 64000000 --threads 32 --runs 1
+omp,64000000,1,32,499.699,,,,,,,137437749187630446,cpu native,,2,./quicksort_parallel_openmp  --n 64000000 --threads 32 --runs 1
+threads,64000000,1,32,1041.883,,,,,,,137437749187630446,cpu native,,2,./quicksort_parallel_threads --n 64000000 --threads 32 --runs 1
+omp,64000000,1,32,490.502,,,,,,,137437749187630446,cpu native,,3,./quicksort_parallel_openmp  --n 64000000 --threads 32 --runs 1
+threads,64000000,1,32,1057.841,,,,,,,137437749187630446,cpu native,,3,./quicksort_parallel_threads --n 64000000 --threads 32 --runs 1
+mpi,64000000,1,1,3795.692,11.487,3667.188,0.001,106.503,0.000,10.515,137437749187630446,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,1,1,3779.432,11.621,3685.381,0.000,71.565,0.000,10.864,137437749187630446,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,1,1,3809.625,11.475,3673.863,0.000,111.126,0.000,13.161,137437749187630446,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,2,1,1924.171,15.206,1740.085,0.013,49.458,103.804,15.604,137437749187630446,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,2,1,1927.623,14.837,1744.609,0.014,47.320,106.290,14.554,137437749187630446,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,2,1,1922.123,15.184,1740.855,0.022,48.355,103.174,14.533,137437749187630446,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,4,1,1010.385,17.082,854.569,0.034,33.615,88.992,16.093,137437749187630446,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,4,1,1039.771,20.318,868.361,0.016,43.432,89.634,18.010,137437749187630446,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,4,1,1025.173,18.002,856.805,0.116,43.835,89.612,16.804,137437749187630446,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,8,1,525.630,21.180,406.399,0.053,19.817,60.655,17.524,137437749187630446,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,8,1,545.475,21.498,425.273,0.049,20.826,60.670,17.160,137437749187630446,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,8,1,531.221,19.473,415.011,0.030,20.036,59.485,17.185,137437749187630446,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,16,1,372.176,28.543,228.637,0.149,21.472,72.244,21.131,137437749187630446,cpu native,,1,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,16,1,377.884,24.930,232.825,0.220,21.975,73.381,24.553,137437749187630446,cpu native,,2,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 64000000 --runs 1
+mpi,64000000,16,1,369.114,24.269,225.586,0.183,21.005,76.667,21.404,137437749187630446,cpu native,,3,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi --n 64000000 --runs 1
+mpi+ocl,64000000,1,1,2761.939,10.865,2667.326,0.000,72.665,0.000,11.082,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,1,1,2717.805,11.424,2628.162,0.000,67.728,0.000,10.489,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,1,1,2734.711,11.045,2645.340,0.000,67.503,0.000,10.823,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 1 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,2,1,2423.212,15.368,2237.654,0.017,47.390,106.681,16.102,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,2,1,2477.730,14.867,2296.604,0.019,46.676,103.504,16.061,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,2,1,2488.640,14.939,2309.155,0.017,46.011,103.802,14.716,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 2 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,4,1,2205.053,17.405,2046.035,0.038,32.992,92.686,15.896,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,4,1,2157.522,18.094,2001.747,0.017,29.117,91.105,17.443,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,4,1,2228.751,20.045,2076.007,0.020,30.099,84.494,18.085,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,8,1,2011.019,21.717,1880.503,0.240,24.784,65.332,18.444,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,8,1,2000.128,19.630,1878.241,0.033,21.207,63.296,17.720,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,8,1,1982.795,21.213,1857.388,0.072,21.686,64.440,17.997,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 8 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,16,1,1834.147,30.536,1682.977,0.241,20.832,78.676,20.885,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,1,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,16,1,1832.320,28.374,1683.176,0.808,20.988,78.750,20.223,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,2,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,64000000,16,1,1878.177,35.015,1724.120,0.193,21.801,76.139,20.910,137437749187630446,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,runtime,3,/home/michael_pappas/anaconda3/bin/mpirun -np 16 ./quicksort_mpi_ocl --n 64000000 --runs 1
+mpi+ocl,16000000,4,1,411.921,6.221,370.925,0.032,7.667,20.477,6.600,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,0,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 0 --runs 1
+mpi+ocl,16000000,4,1,390.087,4.668,352.788,0.018,7.873,20.225,4.514,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,0,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 0 --runs 1
+mpi+ocl,16000000,4,1,378.936,5.288,341.159,0.020,7.870,20.218,4.381,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,0,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 0 --runs 1
+mpi+ocl,16000000,4,1,544.118,4.970,506.940,0.017,7.947,20.001,4.243,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,16,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 16 --runs 1
+mpi+ocl,16000000,4,1,439.615,5.504,402.822,0.018,7.485,19.601,4.186,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,16,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 16 --runs 1
+mpi+ocl,16000000,4,1,468.749,4.697,430.784,0.017,9.423,19.645,4.182,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,16,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 16 --runs 1
+mpi+ocl,16000000,4,1,534.601,5.474,497.077,0.021,8.341,19.504,4.183,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,32,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 32 --runs 1
+mpi+ocl,16000000,4,1,476.432,4.628,433.116,0.029,9.071,24.779,4.810,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,32,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 32 --runs 1
+mpi+ocl,16000000,4,1,416.888,5.531,379.605,0.028,7.967,19.585,4.172,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,32,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 32 --runs 1
+mpi+ocl,16000000,4,1,521.867,4.961,479.349,0.021,9.330,23.969,4.236,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,64,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 64 --runs 1
+mpi+ocl,16000000,4,1,402.343,5.255,365.147,0.017,7.831,19.949,4.144,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,64,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 64 --runs 1
+mpi+ocl,16000000,4,1,425.222,4.974,388.352,0.036,7.639,19.887,4.333,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,64,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 64 --runs 1
+mpi+ocl,16000000,4,1,549.467,5.495,506.495,0.020,9.840,21.845,5.773,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,128,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 128 --runs 1
+mpi+ocl,16000000,4,1,447.064,4.611,405.495,0.024,8.654,23.598,4.682,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,128,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 128 --runs 1
+mpi+ocl,16000000,4,1,414.360,5.870,377.547,0.018,7.500,19.379,4.046,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,128,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 128 --runs 1
+mpi+ocl,16000000,4,1,538.705,4.836,501.194,0.019,7.645,20.608,4.404,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,256,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 256 --runs 1
+mpi+ocl,16000000,4,1,373.976,4.568,338.636,0.023,7.185,19.404,4.161,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,256,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 256 --runs 1
+mpi+ocl,16000000,4,1,403.846,5.159,365.236,0.049,8.159,20.032,5.211,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,256,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 256 --runs 1
+mpi+ocl,16000000,4,1,455.773,5.249,418.229,0.017,7.921,19.999,4.357,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,1024,1,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 1024 --runs 1
+mpi+ocl,16000000,4,1,403.486,5.005,366.032,0.022,7.788,20.439,4.199,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,1024,2,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 1024 --runs 1
+mpi+ocl,16000000,4,1,404.485,4.600,365.359,0.020,8.910,21.183,4.412,34356021073035639,CPU pthread-13th Gen Intel(R) Core(TM) i9-13900KF,1024,3,/home/michael_pappas/anaconda3/bin/mpirun -np 4 ./quicksort_mpi_ocl --n 16000000 --local 1024 --runs 1

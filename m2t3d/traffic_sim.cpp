@@ -1,6 +1,6 @@
 /*
  * SIT315 Module 2 - Task M2.T3D - Traffic Control Simulator
- * Michael Pappas (225071597)
+ * Michael Pappas
  *
  * One binary, three modes:
  *

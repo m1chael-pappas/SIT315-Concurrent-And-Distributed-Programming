@@ -15,6 +15,7 @@ Each folder builds standalone and has its own README with the build line and arg
 | [`m3s2p`](m3s2p) | M3 seminar 2 | MPI point-to-point and collectives |
 | [`m3s3p`](m3s3p) | M3 seminar 3 | OpenCL kernels on GPU |
 | [`m3t1p`](m3t1p) | M3 task 1 | Matrix multiply with MPI, hybrid MPI and OpenMP, hybrid MPI and OpenCL |
+| [`m3t2c`](m3t2c) | M3 task 2 | Distributed quicksort with MPI, and with MPI and OpenCL |
 
 ## Dependencies
 

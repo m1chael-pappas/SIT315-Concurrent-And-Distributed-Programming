@@ -5,7 +5,7 @@
 // Build:  g++ -O2 -std=c++17 -Wall -Wextra quicksort_sequential.cpp -o quicksort_sequential
 // Run:    ./quicksort_sequential --n 100000000 --pivot median3 --runs 5
 //
-// Michael Pappas, 225071597
+// Michael Pappas
 // ============================================================================
 
 

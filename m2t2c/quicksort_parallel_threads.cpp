@@ -11,7 +11,7 @@
 // Build:  g++ -O2 -std=c++17 -Wall -Wextra -pthread quicksort_parallel_threads.cpp -o quicksort_parallel_threads
 // Run:    ./quicksort_parallel_threads --n 100000000 --threads 16 --pivot median3 --runs 5
 //
-// Michael Pappas, 225071597
+// Michael Pappas
 // ============================================================================
 
 
