@@ -26,10 +26,14 @@ m3t2c/quicksort_mpi_ocl
 m3t2c/quicksort_sequential
 m3t2c/quicksort_parallel_openmp
 m3t2c/quicksort_parallel_threads
+m3t3d/traffic_mr
+m3t3d/traffic_gen_skew
+m3t3d/traffic_sim
 
 # Generated datasets
 m2t2c/data_200M.bin
 m2t3d/data/
+m3t3d/data/
 
 # Bulk program output
 m2t1p/output_omp.txt
