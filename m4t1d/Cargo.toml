@@ -1,0 +1,29 @@
+[package]
+name = "citysim"
+version = "0.1.0"
+edition = "2024"
+rust-version = "1.85"
+description = "Deterministic parallel city traffic simulator (SIT315 M4.T1D)"
+publish = false
+
+[features]
+cuda = ["dep:cudarc"]
+
+[dependencies]
+rayon = "1.12"
+clap = { version = "4.6", features = ["derive"] }
+cudarc = { version = "0.19.9", optional = true, default-features = false, features = ["std", "driver", "nvrtc", "dynamic-loading", "cuda-13030"] }
+
+[dev-dependencies]
+proptest = "1.11"
+
+[target.'cfg(loom)'.dependencies]
+loom = "0.7"
+
+[lints.rust]
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(loom)'] }
+
+[profile.release]
+lto = "fat"
+codegen-units = 1
+debug = "line-tables-only"
