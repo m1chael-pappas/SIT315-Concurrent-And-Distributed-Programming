@@ -1,9 +1,8 @@
 //! The car record and the ring buffer each approach link keeps its cars in.
 //!
-//! A car is 16 bytes with a fixed C layout, identical on the host and in
-//! `gpu/kernels.cu`, so the GPU state can be uploaded and downloaded byte for
-//! byte. A link is single-lane and first-in first-out: cars enter at the tail
-//! and leave from the head, so each link is a ring of `link_cells` slots.
+//! A car is 16 bytes with the C layout `gpu/kernels.cu` declares. A link is a
+//! single lane stored as a ring of `link_cells` slots: cars enter at the tail
+//! and leave from the head.
 
 /// Turn code: continue straight through the next intersection.
 pub const STRAIGHT: u8 = 0;
@@ -17,7 +16,7 @@ pub const PARK: u8 = 3;
 /// Set on an outbox slot that holds a car.
 pub const FLAG_VALID: u8 = 1;
 
-/// One vehicle. `id` packs the tick and link it was spawned on, which makes it unique without a shared counter.
+/// One vehicle. `id` is `(spawn tick << 32) | spawn link`, unique per car.
 #[repr(C)]
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq)]
 pub struct Car {

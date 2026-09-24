@@ -1,8 +1,7 @@
-//! Checksums that prove two runs computed the same thing.
+//! State and sensor checksums.
 //!
 //! The state checksum covers every live car and every intersection. It is a
-//! wrapping sum of per-node hashes, so it comes out the same whatever order the
-//! nodes are hashed in, including a GPU reduction.
+//! wrapping sum of per-node hashes, independent of the order nodes are summed in.
 //!
 //! The sensor checksum is the one m2t3d and m3t3d print: FNV-1a over every
 //! non-zero hourly total, walked in hour then light order, with hours counted
@@ -37,7 +36,7 @@ pub fn splitmix64(x: u64) -> u64 {
 }
 
 /// Hash of one intersection: its signal and counters, then each approach's live cars from head to tail.
-/// Only live fields are read, so stale ring slots and padding never leak in.
+/// Reads only live fields and live cars.
 pub fn node_hash(meta: &NodeMeta, cars: &[Car], cells: usize) -> u64 {
     let mut h = FNV_OFFSET;
     for value in [

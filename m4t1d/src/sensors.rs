@@ -8,9 +8,8 @@
 //! 2026-08-01 08:00,TL0042,37
 //! ```
 //!
-//! The simulation hands each finished window to a writer thread through a
-//! bounded channel, so formatting and disk writes overlap with the next window.
-//! A frame is any `Frame`; the CPU backends pass a `VecFrame`.
+//! Finished windows go to a writer thread through a bounded channel as `Frame`s;
+//! the CPU backends pass a `VecFrame`.
 
 use std::fs::File;
 use std::io::{self, BufWriter, Write};
@@ -160,8 +159,8 @@ fn writer_loop(
 }
 
 impl SensorWriter {
-    /// Starts the writer thread. Without a path it still computes the sensor checksum.
-    /// `depth` bounds how many frames can wait, which is the back-pressure on the simulation.
+    /// Starts the writer thread, which computes the sensor checksum and, given a path, writes the CSV.
+    /// `send` blocks while `depth` frames wait.
     pub fn start(path: Option<PathBuf>, lights: usize, depth: usize) -> SensorWriter {
         let (tx, rx) = sync_channel(depth);
         let (done_tx, done) = channel();

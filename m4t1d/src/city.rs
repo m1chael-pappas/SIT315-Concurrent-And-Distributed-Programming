@@ -10,9 +10,7 @@
 //!   each approach, and set the signal for the next tick.
 //!
 //! A node writes only its own cars and `NodeMeta`. The only data it reads from
-//! other nodes lives in the `Halo`, which is written in one phase and read in
-//! the other, so every backend can run the nodes of a phase in any order, on
-//! any thread, and get the same bits.
+//! other nodes is in the `Halo`, written in one phase and read in the other.
 
 use std::collections::TryReserveError;
 use std::io::{self, Read, Write};
@@ -43,16 +41,15 @@ pub struct NodeMeta {
     pub crossed: u32,
 }
 
-/// Data one node publishes for its neighbours. Written by the owner in one
-/// phase, read by others in the next, with a barrier in between. Relaxed atomic
-/// access is enough, because the barrier orders it, and on x86 it compiles to
-/// plain loads and stores.
+/// Data a node publishes for its neighbours: written by its owner in one phase
+/// and read by others in the next. Accesses are `Relaxed`; the barrier between
+/// phases orders them.
 pub struct Halo {
     outbox: Vec<[AtomicU64; 2]>,
     entry_gap: Vec<AtomicU8>,
 }
 
-/// An array the city could not allocate, reported by name for the stress test.
+/// An array the city could not allocate: its name and size in bytes.
 #[derive(Debug)]
 pub struct AllocFailure {
     pub array: &'static str,
@@ -160,8 +157,7 @@ pub fn bytes_per_node(link_cells: u32) -> u64 {
 
 impl City {
     /// An empty city at `params.start_tick`. Every large array is reserved with
-    /// `try_reserve_exact`, so a city too big for memory fails here with the
-    /// name and size of the array instead of being killed later.
+    /// `try_reserve_exact`; `Err` names the first array that does not fit.
     pub fn new(params: Params, demand: Demand) -> Result<City, AllocFailure> {
         let nodes = params.nodes();
         let cars = alloc_filled("car slots", nodes * params.cars_per_node(), Car::default())?;
@@ -193,9 +189,8 @@ impl City {
         }
     }
 
-    /// The read-only context of the tick about to run, together with the car and
-    /// metadata arrays the nodes write. The borrows are of different fields, so the
-    /// compiler knows the step functions cannot write anything the context reads.
+    /// The read-only context of the tick about to run, and the car and metadata
+    /// arrays the step functions write, borrowed from separate fields.
     pub fn split(&mut self) -> (StepCtx<'_>, &mut [Car], &mut [NodeMeta]) {
         let ctx = StepCtx {
             params: &self.params,

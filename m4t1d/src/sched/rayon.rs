@@ -12,7 +12,7 @@ use crate::city::{City, NodeStep, step_a, step_b};
 /// Owner value of a block that has not run yet.
 const NO_WORKER: u32 = u32::MAX;
 
-/// An atomic counter aligned to 128 bytes, so no two counters share a cache line or an adjacent-line prefetch pair.
+/// An atomic counter aligned to 128 bytes: one cache line, or adjacent-line prefetch pair, per counter.
 #[repr(align(128))]
 #[derive(Default)]
 struct Padded(AtomicU64);

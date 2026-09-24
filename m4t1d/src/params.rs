@@ -1,8 +1,7 @@
 //! Simulation parameters and the demand model.
 //!
-//! Everything the step functions read is an integer. Probabilities are stored
-//! as u32 thresholds (a draw x means "yes" when x < threshold), so the CPU and
-//! the GPU make every decision from the same bits.
+//! Everything the step functions read is an integer. Probabilities are u32
+//! thresholds: a draw x means yes when x < threshold.
 
 /// Top speed in cells per tick: 5 cells of 7.5 m per second is 135 km/h, the Nagel-Schreckenberg value.
 pub const VMAX: u32 = 5;
@@ -79,8 +78,7 @@ pub struct Event {
 }
 
 /// Cauchy-shaped weight in [0, `scale`] of a point at squared distance `d2`
-/// from a peak of squared spread `s2`: scale * s2 / (s2 + d2). Integer only, so
-/// no libm function becomes part of the reproducibility contract.
+/// from a peak of squared spread `s2`: scale * s2 / (s2 + d2), in integers.
 fn cauchy(scale: u32, s2: u64, d2: u64) -> u64 {
     u64::from(scale) * s2 / (s2 + d2)
 }
@@ -92,9 +90,8 @@ fn half_unit_dist2(r: u32, c: u32, centre_r2: i64, centre_c2: i64) -> u64 {
     (dr * dr + dc * dc) as u64
 }
 
-/// Spawn threshold of every link at 100% rush weight. Interior links spawn from
-/// driveways with the downtown-peaked weight. Links that enter the city from its
-/// edge add the edge inflow, since they are the only way traffic arrives from outside.
+/// Spawn threshold of every link at 100% rush weight: the floor plus the
+/// downtown peak, plus the edge inflow on links that enter from the city edge.
 pub fn spawn_table(params: &Params, demand: &Demand) -> Vec<u32> {
     let centre_r2 = i64::from(params.rows) - 1;
     let centre_c2 = i64::from(params.cols) - 1;

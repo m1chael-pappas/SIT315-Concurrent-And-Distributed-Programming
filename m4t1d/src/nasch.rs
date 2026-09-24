@@ -1,10 +1,9 @@
 //! The Nagel-Schreckenberg update of one single-lane link.
 //!
-//! The four rules of Nagel & Schreckenberg (1992) are applied to every car in
-//! parallel, meaning each car's gap is measured to where the car ahead stood at
-//! the start of the tick, not where it has just moved to. A red light is a
-//! stopped obstacle just past the stop line, the approach TRANSIMS used, which
-//! here means the head car's gap ends at the stop line.
+//! The four rules of Nagel & Schreckenberg (1992), applied to all cars at once:
+//! each car's gap is measured to the position the car ahead held at the start
+//! of the tick. A red light is an obstacle one cell past the stop line, so the
+//! head car's gap ends at the stop line.
 
 use crate::car::{Car, slot};
 use crate::params::VMAX;
@@ -34,9 +33,8 @@ pub fn nasch_speed(vel: u32, gap: u32, brake: u32, brake_draw: impl FnOnce() -> 
 /// may use beyond the stop line: 0 on red, the target link's free entry cells
 /// on green, and `VMAX` for a car leaving the city or parking.
 ///
-/// Every car that stays on the link is moved in place. If the head car would
-/// pass the stop line it is left untouched and returned as a request, because
-/// whether it may cross is decided at the intersection.
+/// Every car that stays on the link is moved in place. A head car that would
+/// pass the stop line is left untouched and returned as a request.
 pub fn advance_link(
     cars: &mut [Car],
     start: u8,

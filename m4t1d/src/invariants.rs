@@ -1,7 +1,7 @@
 //! Invariants that every correct state satisfies, checked while the simulation runs.
 //!
-//! Conservation is always checked at the end of each window. The per-link
-//! checks are cheap enough to run every tick with `--check`.
+//! `check_conservation` runs after every window, and `check_state` after every
+//! tick with `--check`.
 
 use crate::car::{Car, slot};
 use crate::city::{Halo, NodeMeta};

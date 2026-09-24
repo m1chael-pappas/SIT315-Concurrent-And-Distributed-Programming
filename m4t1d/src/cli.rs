@@ -98,7 +98,7 @@ pub struct EngineArgs {
     #[arg(long, default_value_t = 64)]
     pub block: usize,
     /// Block cost the balanced backend cuts by.
-    #[arg(long, value_enum, default_value_t = Cost::Time)]
+    #[arg(long, value_enum, default_value_t = Cost::Cars)]
     pub cost: Cost,
     /// Windows between repartitions for balanced; 0 keeps the first partition.
     #[arg(long, default_value_t = 1)]
@@ -138,7 +138,7 @@ pub struct RunArgs {
     #[arg(long)]
     pub sensors: Option<PathBuf>,
     /// on: the writer thread formats a window while the next one runs; off: the run waits for it.
-    #[arg(long, default_value = "on", value_parser = parse_switch)]
+    #[arg(long, default_value = "on", value_parser = parse_switch, action = clap::ArgAction::Set)]
     pub pipeline: bool,
     /// Write the per-window lines to this file as well.
     #[arg(long)]

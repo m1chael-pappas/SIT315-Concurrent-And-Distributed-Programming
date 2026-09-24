@@ -28,7 +28,7 @@ use crate::sensors::Frame;
 
 const KERNELS: &str = include_str!("kernels.cu");
 
-/// Launches before timing starts, so the measurement skips first-launch set-up.
+/// Untimed launches before the measured ones.
 const WARM_UP_LAUNCHES: u32 = 100;
 
 /// The device and the toolchain, as the self-test reports them.

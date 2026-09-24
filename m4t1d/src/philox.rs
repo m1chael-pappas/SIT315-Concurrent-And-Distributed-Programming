@@ -1,12 +1,9 @@
 //! Philox-4x32-10, the counter-based random number generator from Salmon et al.,
 //! "Parallel Random Numbers: As Easy as 1, 2, 3" (SC'11, Random123).
 //!
-//! Every random decision in the simulation is a pure function of the seed, the
-//! entity it belongs to, a time or hop number and a stream tag. There is no
-//! generator state to share or advance, so the numbers a car sees do not depend
-//! on which thread, backend or partition processes it. `gpu/kernels.cu` holds
-//! the CUDA copy of this function, and both are tested against the Random123
-//! known-answer vectors.
+//! Every random decision is a pure function of the seed, an entity, a time or
+//! hop number and a stream tag, with no generator state. `gpu/kernels.cu` has
+//! the CUDA copy; both are tested against the Random123 known-answer vectors.
 
 /// Multiplier of the first counter word in each round.
 pub const M0: u32 = 0xD251_1F53;

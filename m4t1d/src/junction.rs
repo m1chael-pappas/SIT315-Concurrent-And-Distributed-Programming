@@ -1,12 +1,8 @@
 //! Intersection logic: who crosses, and how cars join a link.
 //!
-//! Decisions are made before a car enters the intersection, as in most
-//! cellular automaton city models, so the junction itself holds no cars. Each
-//! outgoing port lets at most one car through per tick. When two green
-//! approaches want the same port, the straight car goes first, then a left
-//! turn, then a right turn, which crosses the oncoming lane under keep-left
-//! rules. A tie goes to the lower approach index. The order is fixed, so the
-//! outcome never depends on which thread looks first.
+//! The junction holds no cars. Each outgoing port passes at most one car per
+//! tick. Head cars that want the same port rank straight, then left, then
+//! right; equal turns rank by the lower approach index.
 
 use crate::car::{Car, PARK, slot};
 use crate::grid::exit_port;
@@ -23,8 +19,7 @@ fn rank(turn: u8) -> u8 {
     turn
 }
 
-/// Decides which head cars may cross this tick. Parking cars always may, since
-/// they leave through a driveway and use no port.
+/// Which head cars cross this tick: the best-ranked want of each port, and every parking car, which uses no port.
 pub fn resolve(wants: [Option<Want>; 4]) -> [bool; 4] {
     let mut grants = [false; 4];
     let mut best: [Option<usize>; 4] = [None; 4];
