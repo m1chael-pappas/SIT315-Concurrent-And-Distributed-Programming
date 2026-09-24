@@ -18,6 +18,7 @@ PEAK=${PEAK:-08:00}
 PROCS=${PROCS:-4}
 TOP=${TOP:-5}
 DATA=${DATA:-data}
+CUDA=${CUDA:-1}
 M2=../m2t3d
 M3=../m3t3d
 
@@ -35,7 +36,11 @@ done
 cd "$(dirname "$0")"
 mkdir -p "$DATA"
 
-cargo build --release --quiet                                                       || exit 1
+# The same features as run_experiments.sh, so the check never swaps a GPU build
+# for a CPU-only one. The cuda feature builds without a GPU.
+FEATURES=""
+[ "$CUDA" = 1 ] && FEATURES="--features cuda"
+cargo build --release --quiet $FEATURES                                             || exit 1
 $MPICXX -std=c++17 -O2 -Wall -Wextra -o "$DATA/traffic_mr" $M3/traffic_mr.cpp       || exit 1
 g++     -std=c++17 -O2 -pthread -Wall -o "$DATA/traffic_sim" $M2/traffic_sim.cpp    || exit 1
 

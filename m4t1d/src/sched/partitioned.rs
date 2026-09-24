@@ -98,8 +98,10 @@ impl Drop for PoisonOnPanic<'_> {
 #[derive(Clone, Copy, Debug, PartialEq, Eq, clap::ValueEnum)]
 pub enum Cost {
     /// `car_costs` of the state at the cut.
+    #[value(help = "cars on each block's approaches, plus a fixed cost per intersection")]
     Cars,
     /// Step nanoseconds of each block in each phase over the previous `run_ticks` call; `Cars` before any call.
+    #[value(help = "how long each block took in the previous window")]
     Time,
 }
 

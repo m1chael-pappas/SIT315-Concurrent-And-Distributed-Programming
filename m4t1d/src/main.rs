@@ -88,8 +88,7 @@ fn make_engine(kind: BackendKind, args: &EngineArgs) -> Result<Box<dyn Engine>, 
 
 #[cfg(feature = "cuda")]
 fn cuda_engine(block: usize) -> Result<Box<dyn Engine>, String> {
-    let block =
-        u32::try_from(block).ok().filter(|b| (1..=1024).contains(b)).ok_or("--block must be 1 to 1024 for cuda")?;
+    let block = u32::try_from(block).map_err(|_| format!("--block {block} is too large for cuda"))?;
     Ok(Box::new(CudaEngine::new(block)?))
 }
 

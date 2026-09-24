@@ -17,6 +17,7 @@ Each folder builds standalone and has its own README with the build line and arg
 | [`m3t1p`](m3t1p) | M3 task 1 | Matrix multiply with MPI, hybrid MPI and OpenMP, hybrid MPI and OpenCL |
 | [`m3t2c`](m3t2c) | M3 task 2 | Distributed quicksort with MPI, and with MPI and OpenCL |
 | [`m3t3d`](m3t3d) | M3 task 3 | Traffic simulator as an MPI MapReduce over a shared input file |
+| [`m4t1d`](m4t1d) | M4 task 1 | City traffic simulator in Rust with static, load-balanced, work-stealing and CUDA backends |
 
 ## Dependencies
 
@@ -25,6 +26,7 @@ sudo apt install g++ libomp-dev openmpi-bin libopenmpi-dev opencl-headers ocl-ic
 ```
 
 `m3s3p` and `m3t1p` also need an OpenCL runtime for your GPU vendor, or `pocl-opencl-icd` to run on the CPU.
+`m4t1d` is a Rust crate and needs Rust 1.85 or newer from rustup; its README covers the NVIDIA setup for the GPU backend.
 
 The MPI folders are the exception to that apt line. Both the system OpenMPI and the system MPICH hang in `MPI_Init` on the WSL2 machine this was developed on, so `m3t1p`, `m3t2c` and `m3t3d` build and run against the MPICH that ships with Anaconda, by absolute path. `m3t1p/README.md` has the detail and the check for it.
 
@@ -32,6 +34,7 @@ The MPI folders are the exception to that apt line. Both the system OpenMPI and 
 
 There is no top-level Makefile.
 Compile lines differ per folder and are documented in each README.
+`m4t1d` builds with `cargo build --release`.
 
 ## Generated files
 

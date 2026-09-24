@@ -174,6 +174,17 @@ impl Gpu {
         self.module.load_function(name).map_err(cuda_error)
     }
 
+    /// The largest block size every kernel in `kernels` can launch, and the most registers per thread among them.
+    fn block_limit(&self, kernels: &[&str]) -> Result<(u32, i32), String> {
+        let (mut limit, mut registers) = (u32::MAX, 0);
+        for name in kernels {
+            let function = self.function(name)?;
+            limit = limit.min(function.max_threads_per_block().map_err(cuda_error)? as u32);
+            registers = registers.max(function.num_regs().map_err(cuda_error)?);
+        }
+        Ok((limit, registers))
+    }
+
     /// Philox-4x32-10 of every counter and key pair, computed on the GPU.
     pub fn philox(&self, inputs: &[([u32; 4], [u32; 2])]) -> Result<Vec<[u32; 4]>, String> {
         let kernel = self.function("philox_batch")?;
@@ -260,6 +271,9 @@ impl DeviceParams {
         }
     }
 }
+
+/// Kernels launched with one thread per node in blocks of the engine's `block` threads.
+const PER_NODE_KERNELS: [&str; 4] = ["step_a", "step_b", "init_state", "harvest"];
 
 /// Threads per block of the `census` and `state_checksum` kernels, a whole number of warps.
 const REDUCE_BLOCK: u32 = 256;
@@ -363,9 +377,19 @@ pub struct CudaEngine {
 }
 
 impl CudaEngine {
-    /// Opens device 0 and compiles the kernels; `block` is the thread-block size of the step kernels.
+    /// Opens device 0 and compiles the kernels; `block` is the thread-block size of the per-node kernels.
+    /// `Err` when a per-node kernel cannot launch `block` threads per block on this GPU.
     pub fn new(block: u32) -> Result<CudaEngine, String> {
-        Ok(CudaEngine { gpu: Gpu::open()?, block, state: None, events: Vec::new(), frames: FramePool::new() })
+        let gpu = Gpu::open()?;
+        let (limit, registers) = gpu.block_limit(&PER_NODE_KERNELS)?;
+        if block == 0 || block > limit {
+            return Err(format!(
+                "--block {block} is outside what the step kernels can launch on {}: 1 to {limit} threads per block, \
+                 at {registers} registers per thread",
+                gpu.info.name
+            ));
+        }
+        Ok(CudaEngine { gpu, block, state: None, events: Vec::new(), frames: FramePool::new() })
     }
 
     fn ctx(&self) -> Arc<CudaContext> {
