@@ -1,0 +1,7 @@
+# Seeds for failure cases proptest has generated in the past. It is
+# automatically read and these particular cases re-run before any
+# novel cases are generated.
+#
+# It is recommended to check this file in to source control so that
+# everyone who runs the test benefits from these saved cases.
+cc 0fb12b0e9767122caf024549259138bb045fae2445570148e2d64d9bd5013a62 # shrinks to (p, d) = (Params { rows: 2, cols: 2, link_cells: 6, seed: 0, brake: 456, turn_straight: 2559553339, turn_straight_left: 2643388300, trip_end: 214748365, min_green: 10, max_green: 45, detector: 8, start_tick: 82657 }, Demand { peak: 1274966133, floor: 127780828, spread: 4, edge: 1387598468, event: None })

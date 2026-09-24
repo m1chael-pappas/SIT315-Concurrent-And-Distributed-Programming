@@ -413,6 +413,11 @@ mod tests {
     use proptest::prelude::*;
 
     use super::*;
+    use crate::params::{Demand, test_params, threshold};
+    use crate::sched::Seq;
+
+    /// Ticks of the two-worker test, few enough for Miri.
+    const TWO_WORKER_TICKS: u32 = 12;
 
     #[test]
     fn equal_cuts_cover_every_block() {
@@ -439,6 +444,19 @@ mod tests {
         let mut items = [1, 2, 3, 4, 5];
         let parts = split_lengths(&mut items, &[2, 0, 3]);
         assert_eq!(parts.iter().map(|p| p.to_vec()).collect::<Vec<_>>(), vec![vec![1, 2], vec![], vec![3, 4, 5]]);
+    }
+
+    #[test]
+    fn two_workers_match_seq_on_a_small_city() {
+        let demand =
+            Demand { peak: threshold(0.3), floor: threshold(0.05), spread: 1, edge: threshold(0.1), event: None };
+        let city = || City::new(test_params(3, 3), demand.clone()).expect("a 3x3 city fits");
+        let (mut reference, mut split) = (city(), city());
+        Seq.run_ticks(&mut reference, TWO_WORKER_TICKS).expect("seq runs");
+        let mut engine = Partitioned::new("static", 2, 2, CutPolicy::Static);
+        engine.run_ticks(&mut split, TWO_WORKER_TICKS).expect("static runs");
+        assert_eq!(Seq.state_checksum(&split), Seq.state_checksum(&reference));
+        assert!(reference.meta.iter().any(|m| m.spawned > 0));
     }
 
     #[test]

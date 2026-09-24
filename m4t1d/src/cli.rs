@@ -94,7 +94,7 @@ pub struct EngineArgs {
     /// Worker threads for static, rayon and balanced; defaults to every logical CPU.
     #[arg(long)]
     pub threads: Option<usize>,
-    /// Nodes per scheduling block.
+    /// Nodes per scheduling block; for cuda, threads per CUDA block.
     #[arg(long, default_value_t = 64)]
     pub block: usize,
     /// Block cost the balanced backend cuts by.
@@ -137,6 +137,9 @@ pub struct RunArgs {
     /// Write sensor counts to this CSV file.
     #[arg(long)]
     pub sensors: Option<PathBuf>,
+    /// on: the writer thread formats a window while the next one runs; off: the run waits for it.
+    #[arg(long, default_value = "on", value_parser = parse_switch)]
+    pub pipeline: bool,
     /// Write the per-window lines to this file as well.
     #[arg(long)]
     pub window_log: Option<PathBuf>,
@@ -212,6 +215,14 @@ fn parse_duration(s: &str) -> Result<u32, String> {
         return Err("duration must be a positive multiple of 5 minutes".into());
     }
     Ok(seconds)
+}
+
+fn parse_switch(s: &str) -> Result<bool, String> {
+    match s {
+        "on" => Ok(true),
+        "off" => Ok(false),
+        _ => Err("expected on or off".into()),
+    }
 }
 
 fn parse_turns(s: &str) -> Result<(u32, u32, u32), String> {

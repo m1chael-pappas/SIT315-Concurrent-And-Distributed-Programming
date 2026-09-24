@@ -12,8 +12,16 @@
 use crate::car::{Car, slot};
 use crate::city::NodeMeta;
 
-const FNV_OFFSET: u64 = 1_469_598_103_934_665_603;
-const FNV_PRIME: u64 = 1_099_511_628_211;
+/// FNV-1a 64-bit offset basis.
+pub const FNV_OFFSET: u64 = 1_469_598_103_934_665_603;
+/// FNV-1a 64-bit prime.
+pub const FNV_PRIME: u64 = 1_099_511_628_211;
+/// SplitMix64 increment, also the multiplier that spreads node indices in `state_checksum`.
+pub const GOLDEN_GAMMA: u64 = 0x9E37_79B9_7F4A_7C15;
+/// First SplitMix64 finaliser multiplier.
+pub const SPLITMIX_M1: u64 = 0xBF58_476D_1CE4_E5B9;
+/// Second SplitMix64 finaliser multiplier.
+pub const SPLITMIX_M2: u64 = 0x94D0_49BB_1331_11EB;
 
 /// FNV-1a over the 8 little-endian bytes of `value`, the walk m2t3d's `summaryChecksum` uses.
 pub fn fnv_mix(h: u64, value: u64) -> u64 {
@@ -22,9 +30,9 @@ pub fn fnv_mix(h: u64, value: u64) -> u64 {
 
 /// SplitMix64 finaliser, spreading each node hash before the sum.
 pub fn splitmix64(x: u64) -> u64 {
-    let mut z = x.wrapping_add(0x9E37_79B9_7F4A_7C15);
-    z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
-    z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
+    let mut z = x.wrapping_add(GOLDEN_GAMMA);
+    z = (z ^ (z >> 30)).wrapping_mul(SPLITMIX_M1);
+    z = (z ^ (z >> 27)).wrapping_mul(SPLITMIX_M2);
     z ^ (z >> 31)
 }
 
@@ -61,9 +69,7 @@ pub fn state_checksum(meta: &[NodeMeta], cars: &[Car], cells: usize) -> u64 {
     meta.iter()
         .zip(cars.chunks(4 * cells))
         .enumerate()
-        .map(|(n, (m, c))| {
-            splitmix64(node_hash(m, c, cells).wrapping_add((n as u64).wrapping_mul(0x9E37_79B9_7F4A_7C15)))
-        })
+        .map(|(n, (m, c))| splitmix64(node_hash(m, c, cells).wrapping_add((n as u64).wrapping_mul(GOLDEN_GAMMA))))
         .fold(0u64, u64::wrapping_add)
 }
 

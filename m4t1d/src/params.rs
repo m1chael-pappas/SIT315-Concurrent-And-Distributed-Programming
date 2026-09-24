@@ -126,10 +126,14 @@ pub fn event_boost(event: &Event, r: u32, c: u32, tick: u32) -> u32 {
     cauchy(event.peak, s2, (dr * dr + dc * dc) as u64) as u32
 }
 
-/// Spawn threshold for this tick: the base scaled by the hour's rush weight, plus any event.
-pub fn spawn_threshold(base: u32, tick: u32, boost: u32) -> u32 {
-    let hour = (tick / TICKS_PER_HOUR) % 24;
-    let scaled = u64::from(base) * u64::from(RUSH[hour as usize]) / 100;
+/// `RUSH` weight of the hour that contains absolute tick `tick`.
+pub fn rush_weight(tick: u32) -> u32 {
+    RUSH[((tick / TICKS_PER_HOUR) % 24) as usize]
+}
+
+/// Spawn threshold: `base` scaled by the rush weight `rush` in percent, plus `boost`, saturating.
+pub fn spawn_threshold(base: u32, rush: u32, boost: u32) -> u32 {
+    let scaled = u64::from(base) * u64::from(rush) / 100;
     (scaled + u64::from(boost)).min(u64::from(u32::MAX)) as u32
 }
 
@@ -166,9 +170,10 @@ mod tests {
 
     #[test]
     fn rush_scales_spawn_threshold() {
-        assert_eq!(spawn_threshold(1000, 8 * TICKS_PER_HOUR, 0), 1000);
-        assert_eq!(spawn_threshold(1000, 3 * TICKS_PER_HOUR, 0), 160);
-        assert_eq!(spawn_threshold(1000, 3 * TICKS_PER_HOUR, 5), 165);
+        assert_eq!(spawn_threshold(1000, rush_weight(8 * TICKS_PER_HOUR), 0), 1000);
+        assert_eq!(spawn_threshold(1000, rush_weight(3 * TICKS_PER_HOUR + 59 * 60), 0), 160);
+        assert_eq!(spawn_threshold(1000, rush_weight(27 * TICKS_PER_HOUR), 5), 165);
+        assert_eq!(spawn_threshold(u32::MAX, 100, 1), u32::MAX);
     }
 
     #[test]

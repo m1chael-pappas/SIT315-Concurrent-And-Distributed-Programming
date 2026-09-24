@@ -8,6 +8,7 @@ use crate::sensors::stamp;
 pub struct RunReport<'a> {
     pub params: &'a Params,
     pub backend: &'a str,
+    pub placement: String,
     pub threads: usize,
     pub block: usize,
     pub cost: &'a str,
@@ -92,7 +93,7 @@ impl RunReport<'_> {
             thousands(p.links() as u64 * u64::from(p.link_cells)),
             p.link_cells as f64 * 7.5
         );
-        s += &format!("backend     {}, {}\n", self.backend, count_of(self.threads, "thread"));
+        s += &format!("backend     {} on {}\n", self.backend, self.placement);
         s += &format!(
             "simulated   {} to {}, {} ticks\n",
             stamp(p.start_tick),
@@ -125,6 +126,9 @@ impl RunReport<'_> {
                 100.0 * self.migration,
                 self.repartitions
             );
+        }
+        if self.compile_ms > 0.0 {
+            s += &format!("kernels     compiled in {:.1} ms, outside the wall time\n", self.compile_ms);
         }
         if self.sensor_bytes > 0 {
             s += &format!(

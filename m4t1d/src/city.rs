@@ -22,7 +22,7 @@ use crate::car::{Car, FLAG_VALID, LEFT, PARK, RIGHT, STRAIGHT, slot};
 use crate::grid::{exit_port, link_id, neighbour_node, opposite};
 use crate::junction::{Want, entry_gap, pop_head, push_tail, resolve, want_of};
 use crate::nasch::{HeadRequest, advance_link};
-use crate::params::{Demand, Event, Params, VMAX, event_boost, spawn_table, spawn_threshold};
+use crate::params::{Demand, Event, Params, VMAX, event_boost, rush_weight, spawn_table, spawn_threshold};
 use crate::philox::{draw_route, draw_spawn, key_from_seed};
 use crate::signal::{is_green, next_signal};
 
@@ -101,6 +101,16 @@ impl Halo {
         }
     }
 
+    /// Every link's published entry gap, in link order.
+    pub fn entry_gaps(&self) -> Vec<u8> {
+        self.entry_gap.iter().map(|g| g.load(Ordering::Relaxed)).collect()
+    }
+
+    /// Publishes `gaps`, one per link in link order.
+    pub fn set_entry_gaps(&self, gaps: &[u8]) {
+        self.entry_gap.iter().zip(gaps).for_each(|(g, &v)| g.store(v, Ordering::Relaxed));
+    }
+
     /// Free cells at the start of `link`, as published in the last phase B.
     pub fn entry_gap(&self, link: usize) -> u32 {
         u32::from(self.entry_gap[link].load(Ordering::Relaxed))
@@ -161,6 +171,19 @@ impl City {
         let mut city = City { tick: params.start_tick, params, demand, spawn_base, cars, meta, halo };
         city.reset_signals();
         Ok(city)
+    }
+
+    /// A city at `params.start_tick` with parameters, demand and spawn table but empty
+    /// car, metadata and halo arrays, for an engine that keeps the state elsewhere.
+    pub fn without_host_state(params: Params, demand: Demand) -> City {
+        let spawn_base = spawn_table(&params, &demand);
+        let halo = Halo { outbox: Vec::new(), entry_gap: Vec::new() };
+        City { tick: params.start_tick, params, demand, spawn_base, cars: Vec::new(), meta: Vec::new(), halo }
+    }
+
+    /// Whether the car and metadata arrays hold the whole city.
+    pub fn has_host_state(&self) -> bool {
+        self.meta.len() == self.params.nodes() && self.cars.len() == self.params.nodes() * self.params.cars_per_node()
     }
 
     fn reset_signals(&mut self) {
@@ -451,7 +474,7 @@ fn detector_occupied(link: &[Car], start: u8, len: u8, detector: u32) -> bool {
 fn link_spawn_threshold(ctx: &StepCtx, node: usize, link: usize) -> u32 {
     let cols = ctx.params.cols as usize;
     let boost = ctx.event.map_or(0, |e| event_boost(e, (node / cols) as u32, (node % cols) as u32, ctx.tick));
-    spawn_threshold(ctx.spawn_base[link], ctx.tick, boost)
+    spawn_threshold(ctx.spawn_base[link], rush_weight(ctx.tick), boost)
 }
 
 /// Phase B for one intersection: absorb incoming cars or spawn, publish entry gaps, set the next signal.

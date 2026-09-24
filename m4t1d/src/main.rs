@@ -20,7 +20,7 @@ use clap::Parser;
 use citysim::city::{AllocFailure, City, bytes_per_node};
 use citysim::compare::{compare, describe_node};
 #[cfg(feature = "cuda")]
-use citysim::gpu;
+use citysim::gpu::{self, CudaEngine};
 use citysim::invariants::check_conservation;
 use citysim::params::WINDOW_TICKS;
 use citysim::philox;
@@ -82,14 +82,30 @@ fn make_engine(kind: BackendKind, args: &EngineArgs) -> Result<Box<dyn Engine>, 
         BackendKind::Static => Box::new(Partitioned::new("static", threads, args.block, CutPolicy::Static)),
         BackendKind::Balanced => Box::new(Partitioned::new("balanced", threads, args.block, balanced)),
         BackendKind::Rayon => Box::new(Rayon::new(threads, args.block)?),
-        BackendKind::Cuda => return Err("the cuda backend is not built yet".into()),
+        BackendKind::Cuda => cuda_engine(args.block)?,
     })
 }
 
+#[cfg(feature = "cuda")]
+fn cuda_engine(block: usize) -> Result<Box<dyn Engine>, String> {
+    let block =
+        u32::try_from(block).ok().filter(|b| (1..=1024).contains(b)).ok_or("--block must be 1 to 1024 for cuda")?;
+    Ok(Box::new(CudaEngine::new(block)?))
+}
+
+#[cfg(not(feature = "cuda"))]
+fn cuda_engine(_block: usize) -> Result<Box<dyn Engine>, String> {
+    Err("this build has no GPU backend; rebuild with --features cuda".into())
+}
+
 /// The city at the start of `span`: read from its snapshot, or empty at its start time.
-fn make_city(city: &CityArgs, span: &SpanArgs) -> Result<City, Failure> {
+/// Without `host_state`, an empty city gets no host arrays.
+fn make_city(city: &CityArgs, span: &SpanArgs, host_state: bool) -> Result<City, Failure> {
     let Some(path) = &span.load_state else {
         let params = city.params(span.start);
+        if !host_state {
+            return Ok(City::without_host_state(params, city.demand()));
+        }
         return City::new(params.clone(), city.demand()).map_err(|f| {
             report_alloc_failure(&f, params.rows, params.cols, params.link_cells);
             (String::new(), 2)
@@ -117,7 +133,7 @@ fn banner(city: &City, engine: &dyn Engine, duration: u32) {
         p.cols,
         thousands(p.nodes() as u64),
         engine.name(),
-        count_of(engine.threads(), "thread"),
+        engine.describe(),
         stamp(city.tick),
         &stamp(city.tick + duration)[11..]
     );
@@ -125,10 +141,12 @@ fn banner(city: &City, engine: &dyn Engine, duration: u32) {
 
 fn run(args: RunArgs) -> Result<(), Failure> {
     let mut engine = make_engine(args.backend, &args.engine).map_err(fail)?;
-    let mut city = make_city(&args.city, &args.span)?;
+    let host_state = args.backend != BackendKind::Cuda || args.check || args.save_state.is_some();
+    let mut city = make_city(&args.city, &args.span, host_state)?;
     banner(&city, engine.as_ref(), args.span.duration);
+    engine.prepare(&city).map_err(|e| (e, 2))?;
 
-    let writer = SensorWriter::start(args.sensors.clone(), city.params.nodes(), 2);
+    let mut writer = SensorWriter::start(args.sensors.clone(), city.params.nodes(), 2);
     let mut log = args
         .window_log
         .as_ref()
@@ -148,7 +166,12 @@ fn run(args: RunArgs) -> Result<(), Failure> {
         sim_ms += window_ms;
         totals.add(stats);
 
-        writer.send(engine.harvest(&mut city, window_start).map_err(fail)?);
+        let frame = engine.harvest(&mut city, window_start).map_err(fail)?;
+        if args.pipeline {
+            writer.send(frame);
+        } else {
+            writer.send_and_wait(frame);
+        }
         let census = engine.census(&city).map_err(fail)?;
         check_conservation(&census).map_err(fail)?;
         let checksum = engine.state_checksum(&city).map_err(fail)?;
@@ -172,6 +195,7 @@ fn run(args: RunArgs) -> Result<(), Failure> {
     let report = RunReport {
         params: &city.params,
         backend: engine.name(),
+        placement: engine.describe(),
         threads,
         block: args.engine.block,
         cost: if balanced { &cost } else { "-" },
@@ -186,7 +210,7 @@ fn run(args: RunArgs) -> Result<(), Failure> {
         call_imbalance: totals.call_imbalance(threads),
         migration: totals.migration(),
         repartitions: totals.repartitions,
-        compile_ms: 0.0,
+        compile_ms: engine.compile_ms(),
         write_ms: sensors.write_ms,
         sensor_bytes: sensors.bytes,
         state_checksum,
@@ -202,15 +226,15 @@ fn run(args: RunArgs) -> Result<(), Failure> {
 fn compare_backends(args: CompareArgs) -> Result<(), Failure> {
     let mut a = make_engine(args.a, &args.engine).map_err(fail)?;
     let mut b = make_engine(args.b, &args.engine).map_err(fail)?;
-    let mut city_a = make_city(&args.city, &args.span)?;
-    let mut city_b = make_city(&args.city, &args.span)?;
+    let mut city_a = make_city(&args.city, &args.span, true)?;
+    let mut city_b = make_city(&args.city, &args.span, true)?;
     let p = &city_a.params;
     eprintln!(
         "[citysim] compare {} on {} with {} on {}, {}x{} city, {} to {}, checking every {}",
         a.name(),
-        count_of(a.threads(), "thread"),
+        a.describe(),
         b.name(),
-        count_of(b.threads(), "thread"),
+        b.describe(),
         p.rows,
         p.cols,
         stamp(city_a.tick),

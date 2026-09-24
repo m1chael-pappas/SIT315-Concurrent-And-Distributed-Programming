@@ -14,6 +14,7 @@ use crate::checksum::state_checksum;
 use crate::city::{City, NodeMeta, NodeStep, StepCtx, step_a, step_b};
 use crate::invariants::{Census, census, check_state};
 use crate::sensors::{Frame, VecFrame};
+use crate::stats::count_of;
 
 /// Timing of consecutive ticks, in nanoseconds summed over the ticks.
 ///
@@ -128,6 +129,21 @@ pub trait Engine {
 
     /// Workers the engine runs on.
     fn threads(&self) -> usize;
+
+    /// What the engine runs on, for the banner and the summary.
+    fn describe(&self) -> String {
+        count_of(self.threads(), "thread")
+    }
+
+    /// Milliseconds spent compiling device code.
+    fn compile_ms(&self) -> f64 {
+        0.0
+    }
+
+    /// Allocates whatever the engine needs for `city` beyond its host arrays.
+    fn prepare(&mut self, _city: &City) -> Result<(), String> {
+        Ok(())
+    }
 
     /// Advances `city` by `ticks` ticks.
     fn run_ticks(&mut self, city: &mut City, ticks: u32) -> Result<TickStats, String>;

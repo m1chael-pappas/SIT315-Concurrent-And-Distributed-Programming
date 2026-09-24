@@ -15,7 +15,7 @@
 use std::fs::File;
 use std::io::{self, BufWriter, Write};
 use std::path::PathBuf;
-use std::sync::mpsc::{Receiver, SyncSender, sync_channel};
+use std::sync::mpsc::{Receiver, Sender, SyncSender, channel, sync_channel};
 use std::thread::JoinHandle;
 use std::time::Instant;
 
@@ -124,10 +124,18 @@ pub struct SensorReport {
 /// Handle to the writer thread.
 pub struct SensorWriter {
     tx: Option<SyncSender<Box<dyn Frame>>>,
+    done: Receiver<()>,
+    sent: u64,
+    confirmed: u64,
     handle: Option<JoinHandle<io::Result<SensorReport>>>,
 }
 
-fn writer_loop(frames: Receiver<Box<dyn Frame>>, path: Option<PathBuf>, lights: usize) -> io::Result<SensorReport> {
+fn writer_loop(
+    frames: Receiver<Box<dyn Frame>>,
+    done: Sender<()>,
+    path: Option<PathBuf>,
+    lights: usize,
+) -> io::Result<SensorReport> {
     let mut out = path.map(File::create).transpose()?.map(|f| BufWriter::with_capacity(8 << 20, f));
     let mut sum = SensorChecksum::new(lights);
     let mut buf = Vec::with_capacity(lights * 28);
@@ -142,6 +150,8 @@ fn writer_loop(frames: Receiver<Box<dyn Frame>>, path: Option<PathBuf>, lights: 
             bytes += buf.len() as u64;
         }
         write_ms += start.elapsed().as_secs_f64() * 1e3;
+        drop(frame);
+        let _ = done.send(());
     }
     if let Some(mut out) = out {
         out.flush()?;
@@ -154,15 +164,26 @@ impl SensorWriter {
     /// `depth` bounds how many frames can wait, which is the back-pressure on the simulation.
     pub fn start(path: Option<PathBuf>, lights: usize, depth: usize) -> SensorWriter {
         let (tx, rx) = sync_channel(depth);
-        let handle = std::thread::spawn(move || writer_loop(rx, path, lights));
-        SensorWriter { tx: Some(tx), handle: Some(handle) }
+        let (done_tx, done) = channel();
+        let handle = std::thread::spawn(move || writer_loop(rx, done_tx, path, lights));
+        SensorWriter { tx: Some(tx), done, sent: 0, confirmed: 0, handle: Some(handle) }
     }
 
     /// Hands a finished window to the writer, blocking while `depth` frames wait.
     /// A frame sent after the writer failed is dropped; `finish` returns the failure.
-    pub fn send(&self, frame: Box<dyn Frame>) {
-        if let Some(tx) = &self.tx {
-            let _ = tx.send(frame);
+    pub fn send(&mut self, frame: Box<dyn Frame>) {
+        if let Some(tx) = &self.tx
+            && tx.send(frame).is_ok()
+        {
+            self.sent += 1;
+        }
+    }
+
+    /// `send`, then blocks until the writer has written and dropped every frame sent so far.
+    pub fn send_and_wait(&mut self, frame: Box<dyn Frame>) {
+        self.send(frame);
+        while self.confirmed < self.sent && self.done.recv().is_ok() {
+            self.confirmed += 1;
         }
     }
 
@@ -214,7 +235,7 @@ mod tests {
 
     #[test]
     fn writer_thread_checksums_without_a_file() {
-        let writer = SensorWriter::start(None, 5, 2);
+        let mut writer = SensorWriter::start(None, 5, 2);
         writer.send(Box::new(VecFrame { window_start: 8 * 3600, counts: vec![0, 60, 15, 120, 1] }));
         writer.send(Box::new(VecFrame { window_start: 9 * 3600, counts: vec![0, 50, 50, 0, 90] }));
         let report = writer.finish().unwrap();
